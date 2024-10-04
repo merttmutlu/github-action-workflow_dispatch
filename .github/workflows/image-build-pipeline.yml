@@ -1,0 +1,34 @@
+name: Select and build your docker image with tag!
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_name:
+        description: 'Images'
+        required: true
+        type: choice
+        options:
+        - milvus-robot
+        - milvus-fm-v
+        - milvus-fm-be
+      dev_image:
+        description: 'Is it dev image?'
+        required: false
+        type: boolean
+      tag:
+        description: 'Image tag'
+        type: string
+        required: true
+jobs:
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Your image name: $IMAGE_NAME"
+          echo "Dev image: $DEV_IMAGE"
+          echo "TAG: $TAG"
+          echo "Let's build $IMAGE_NAME:$TAG..."
+        env:
+          IMAGE_NAME: ${{ inputs.image_name }}
+          DEV_IMAGE: ${{ inputs.dev_image }}
+          TAG: ${{ inputs.tag }}
